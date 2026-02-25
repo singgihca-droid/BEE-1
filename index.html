@@ -12,25 +12,17 @@ body{
   color:#ff5c8a;
   overflow:hidden;
 }
-
-/* ===== CLOUD ===== */
 .sky{position:fixed;inset:0;z-index:-1;overflow:hidden}
 .cloud{
-  position:absolute;
-  width:220px;height:70px;
-  background:#fff;
-  border-radius:50px;
-  opacity:.5;
-  top:15%;
+  position:absolute;width:220px;height:70px;
+  background:#fff;border-radius:50px;
+  opacity:.5;top:15%;
   animation:cloudMove 60s linear infinite;
 }
 .cloud::before,.cloud::after{
-  content:"";
-  position:absolute;
-  background:#fff;
-  width:80px;height:80px;
-  border-radius:50%;
-  top:-35px;
+  content:"";position:absolute;
+  background:#fff;width:80px;height:80px;
+  border-radius:50%;top:-35px;
 }
 .cloud::before{left:30px}
 .cloud::after{right:30px}
@@ -40,49 +32,35 @@ body{
 
 .page{display:none;min-height:100vh;justify-content:center;align-items:center;text-align:center;padding:40px}
 .page.active{display:flex}
-
 .card{
   background:rgba(255,255,255,.92);
-  padding:30px;
-  border-radius:24px;
+  padding:30px;border-radius:24px;
   max-width:520px;
   box-shadow:0 12px 30px rgba(255,92,138,.25);
 }
-
 button,input{
-  margin-top:15px;
-  padding:10px 20px;
-  border:none;
-  border-radius:20px;
-  font-size:1em;
+  margin-top:15px;padding:10px 20px;
+  border:none;border-radius:20px;font-size:1em;
 }
 button{background:#ff7aa2;color:#fff;cursor:pointer}
 input{width:80%;text-align:center}
 
-/* ===== MAZE ===== */
 .maze{
-  display:grid;
-  grid-template-columns:repeat(7,45px);
-  gap:5px;
-  justify-content:center;
+  display:grid;grid-template-columns:repeat(7,45px);
+  gap:5px;justify-content:center;
 }
 .cell{
-  width:45px;height:45px;
-  border-radius:8px;
-  background:#ffe6f0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  width:45px;height:45px;border-radius:8px;
+  background:#ffe6f0;display:flex;
+  align-items:center;justify-content:center;
   font-size:20px;
 }
 .wall{background:#ffb6c1}
 .trap{background:#ff6b6b;color:#fff}
 .exit{background:#b2f2bb}
 
-/* ===== CONFETTI ===== */
 .confetti{
-  position:fixed;top:-10px;
-  width:10px;height:10px;
+  position:fixed;top:-10px;width:10px;height:10px;
   animation:fall 3s linear forwards;
 }
 @keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:0}}
@@ -98,7 +76,7 @@ input{width:80%;text-align:center}
 </div>
 
 <audio id="bgm" loop>
-  <source src="https://dl.sndup.net/dkpn/Beautiful-Paul.mp3" type="audio/mpeg">
+  <source src="https://dl.sndup.net/dkpn/Beautiful-Paul.mp3">
 </audio>
 <audio id="tapSound" src="https://www.soundjay.com/buttons/sounds/button-09.mp3"></audio>
 <audio id="successSound" src="https://www.soundjay.com/human/sounds/children-yay-01.mp3"></audio>
@@ -170,10 +148,10 @@ let p=0,lover="",playCount=0,bgPlayed=false;
 
 /* AUDIO */
 document.querySelectorAll("button").forEach(b=>{
-  b.addEventListener("click",()=>{
+  b.onclick=()=>{
     tapSound.currentTime=0;tapSound.play();
     if(!bgPlayed){bgm.play();bgPlayed=true;}
-  });
+  }
 });
 
 /* GREET */
@@ -186,14 +164,14 @@ function saveName(){
 }
 
 /* HERO */
-const heroes=[/* TIDAK DIUBAH */ 
+const heroes=[
   {name:"Iron Man",clues:["Aku Superhero MARVEL, manusia biasa tanpa kekuatan dari lahir.","Aku Superhero MARVEL, Senjataku teknologi canggih.","Aku Superhero MARVEL, Aku menyimpan Arc Reactor di dada."]},
   {name:"Spider-Man",clues:["Aku Superhero MARVEL, Kekuataku muncul setelah sebuah gigitan.","Aku Superhero MARVEL, Aku bergerak lincah dan akrobatik diantara gedung-gedung.","Aku Superhero MARVEL, Aku dianggap murid oleh Tony Stark."]}
 ];
 let pickedHero,clueIndex=0;
 
 function pickHero(){
-  pickedHero=heroes[Math.floor(Math.random()*heroes.length)];
+  pickedHero=heroes[Math.random()*heroes.length|0];
   clueIndex=0;
 }
 
@@ -202,18 +180,15 @@ function normalize(s){return s.toLowerCase().replace(/[^a-z]/g,"")}
 function guessHero(){
   if(playCount>=1){
     heroClue.innerText="Kali ini bukan tentang superhero.";
-    heroMsg.innerHTML="Jawabannya kamu 🤍";
+    heroMsg.innerText="Jawabannya kamu 🤍";
     heroNext.style.display="inline-block";
     confetti(); return;
   }
-
   const i=prompt("Siapa superhero ini?");
   if(!i)return;
   const u=normalize(i),a=normalize(pickedHero.name);
   if(u===a||u.includes(a)||a.includes(u)){
-    heroMsg.innerHTML=`Benar 🤍<br>
-kamu peka banget,..<br>
-jadi iri, apa aku harus jadi teka-teki dulu ni.🤗`;
+    heroMsg.innerHTML=`Benar 🤍<br>kamu peka banget,..<br>jadi iri, apa aku harus jadi teka-teki dulu ni.🤗`;
     heroNext.style.display="inline-block";
     successSound.play();confetti();
   }else{
@@ -225,14 +200,14 @@ jadi iri, apa aku harus jadi teka-teki dulu ni.🤗`;
 }
 
 /* FLOW */
-const messages=[/* TIDAK DIUBAH */ 
-  "Kamu nggak perlu jadi sempurna untuk jadi berharga. Cara kamu bertahan aja sudah cukup bikin bangga 🤍"
+const messages=[
+"Kamu nggak perlu jadi sempurna untuk jadi berharga. Cara kamu bertahan aja sudah cukup bikin bangga 🤍"
 ];
 const secretMessage="Kalau kamu sampai main dua kali… berarti dari awal kamu memang peduli 🤍";
 
 function next(){
-  pages[p].classList.remove("active");p++;
-  pages[p].classList.add("active");
+  pages[p].classList.remove("active");
+  p++; pages[p].classList.add("active");
 
   if(p===1){
     pickHero();
@@ -242,7 +217,6 @@ function next(){
     heroMsg.innerText="";
     heroNext.style.display="none";
   }
-
   if(p===pages.length-1){
     finalMessage.innerText=playCount>=1?secretMessage:messages[0];
   }
@@ -251,10 +225,8 @@ function next(){
 function reset(){
   playCount++;
   pages[p].classList.remove("active");
-  p=0;pages[p].classList.add("active");
+  p=0; pages[p].classList.add("active");
 }
-
-/* CONFETTI */
 function confetti(){
   for(let i=0;i<40;i++){
     const c=document.createElement("div");
