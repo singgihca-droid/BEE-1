@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Cloudybear Level Up 🤍</title>
+<title>Cloudybear ☁️🤍</title>
 
 <style>
 body{
@@ -12,56 +12,38 @@ body{
   color:#ff5c8a;
   overflow:hidden;
 }
-.sky{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.sky{position:fixed;inset:0;z-index:-1}
 .cloud{
   position:absolute;width:220px;height:70px;
-  background:#fff;border-radius:50px;
-  opacity:.5;top:15%;
-  animation:cloudMove 60s linear infinite;
+  background:#fff;border-radius:50px;opacity:.5;
+  top:20%;animation:cloud 60s linear infinite;
 }
 .cloud::before,.cloud::after{
-  content:"";position:absolute;
-  background:#fff;width:80px;height:80px;
-  border-radius:50%;top:-35px;
+  content:"";position:absolute;background:#fff;
+  width:80px;height:80px;border-radius:50%;top:-35px;
 }
-.cloud::before{left:30px}
-.cloud::after{right:30px}
-.cloud.c2{top:40%;width:260px;opacity:.35;animation-duration:90s}
-.cloud.c3{top:65%;width:180px;opacity:.4;animation-duration:75s}
-@keyframes cloudMove{from{left:-300px}to{left:110%}}
+.cloud::before{left:30px}.cloud::after{right:30px}
+.cloud.c2{top:45%;animation-duration:90s;opacity:.35}
+.cloud.c3{top:70%;animation-duration:75s;opacity:.4}
+@keyframes cloud{from{left:-300px}to{left:110%}}
 
-.page{display:none;min-height:100vh;justify-content:center;align-items:center;text-align:center;padding:40px}
+.page{display:none;min-height:100vh;justify-content:center;align-items:center}
 .page.active{display:flex}
 .card{
-  background:rgba(255,255,255,.92);
-  padding:30px;border-radius:24px;
-  max-width:520px;
+  background:#fff;padding:30px;border-radius:24px;
   box-shadow:0 12px 30px rgba(255,92,138,.25);
+  max-width:520px;text-align:center
 }
 button,input{
   margin-top:15px;padding:10px 20px;
-  border:none;border-radius:20px;font-size:1em;
+  border:none;border-radius:20px;font-size:1em
 }
 button{background:#ff7aa2;color:#fff;cursor:pointer}
-input{width:80%;text-align:center}
-
-.maze{
-  display:grid;grid-template-columns:repeat(7,45px);
-  gap:5px;justify-content:center;
-}
-.cell{
-  width:45px;height:45px;border-radius:8px;
-  background:#ffe6f0;display:flex;
-  align-items:center;justify-content:center;
-  font-size:20px;
-}
-.wall{background:#ffb6c1}
-.trap{background:#ff6b6b;color:#fff}
-.exit{background:#b2f2bb}
+input{text-align:center;width:80%}
 
 .confetti{
   position:fixed;top:-10px;width:10px;height:10px;
-  animation:fall 3s linear forwards;
+  animation:fall 3s linear forwards
 }
 @keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:0}}
 </style>
@@ -75,65 +57,27 @@ input{width:80%;text-align:center}
   <div class="cloud c3"></div>
 </div>
 
-<audio id="bgm" loop>
-  <source src="https://dl.sndup.net/dkpn/Beautiful-Paul.mp3">
-</audio>
 <audio id="tapSound" src="https://www.soundjay.com/buttons/sounds/button-09.mp3"></audio>
-<audio id="successSound" src="https://www.soundjay.com/human/sounds/children-yay-01.mp3"></audio>
 
-<!-- PAGE 1 -->
 <div class="page active">
   <div class="card">
-    <h2 id="greet"></h2>
-    <p>aku bisa panggil kamu apa?</p>
-    <input id="loverName" placeholder="Tulis nama kamu 🤍">
-    <button onclick="saveName()">Masuk</button>
+    <h2>Hai ☁️</h2>
+    <p>aku boleh panggil kamu apa?</p>
+    <input id="loverName" placeholder="namamu 🤍">
+    <button onclick="saveName()">masuk</button>
   </div>
 </div>
 
-<!-- PAGE 2 -->
 <div class="page">
   <div class="card">
-    <h2>🦸 Tebak Siapa aku?</h2>
+    <h2>🦸 Tebak siapa aku?</h2>
     <p id="heroClue"></p>
-    <button onclick="guessHero()">Jawab ☝🏻</button>
+    <button onclick="guessHero()">jawab</button>
     <p id="heroMsg"></p>
-    <button id="heroNext" style="display:none" onclick="next()">Next ⏭️</button>
+    <button id="heroNext" style="display:none" onclick="next()">lanjut</button>
   </div>
 </div>
 
-<!-- PAGE 3 -->
-<div class="page">
-  <div class="card">
-    <h2>🤴 Sebuah Legenda</h2>
-    <p>Bantu Pangeran Singgih temui cintanya yaa 💖</p>
-    <div class="maze" id="maze"></div>
-    <div>
-      <button onclick="move(0,-1)">⬆️</button><br>
-      <button onclick="move(-1,0)">⬅️</button>
-      <button onclick="move(1,0)">➡️</button><br>
-      <button onclick="move(0,1)">⬇️</button>
-    </div>
-    <p id="mazeMsg"></p>
-    <button id="mazeNext" style="display:none" onclick="next()">lanjut 👉🏻</button>
-  </div>
-</div>
-
-<!-- PAGE 4 -->
-<div class="page">
-  <div class="card">
-    <h2>💭 Alkisah</h2>
-    <p>Perjalanan Pangeran tadi penuh rintangan.<br>
-Sempat salah jalan, kena jebakan, mulai lagi.</p>
-    <p>Tapi dia terus jalan…<br>
-karena dia tahu, yang ditujunya itu sangat berharga.</p>
-    <p>Kadang hidup juga gitu.<br>
-Kalau tujuannya kamu👰🏻‍♀️, rasanya pengen dicoba terus 🤍</p>
-    <button onclick="next()">lanjut 👉🏻</button>
-  </div>
-</div>
-
-<!-- PAGE 5 -->
 <div class="page">
   <div class="card">
     <h2>✨ Buat Kamu</h2>
@@ -144,66 +88,50 @@ Kalau tujuannya kamu👰🏻‍♀️, rasanya pengen dicoba terus 🤍</p>
 
 <script>
 const pages=document.querySelectorAll(".page");
-let p=0,lover="",playCount=0,bgPlayed=false;
+let p=0,lover="",playCount=0;
 
-/* AUDIO */
-document.querySelectorAll("button").forEach(b=>{
-  b.onclick=()=>{
-    tapSound.currentTime=0;tapSound.play();
-    if(!bgPlayed){bgm.play();bgPlayed=true;}
-  }
-});
+/* ===== HERO ===== */
+const heroes=[
+ {name:"Iron Man",clues:["Teknologi.","Manusia biasa.","Hati besar."]},
+ {name:"Spider-Man",clues:["Lincah.","Gigitan.","Tanggung jawab."]},
+ {name:"Thor",clues:["Petir.","Dewa.","Kehilangan."]}
+];
+let pickedHero,clueIndex=0;
 
-/* GREET */
-const h=new Date().getHours();
-greet.innerText=`Hi Cloudybear☁️✨, Selamat ${h<11?"Pagi🌻":h<15?"Siang☀️":h<18?"Sore🌥️":"Malam🌙"}`;
+function pickHero(){
+  pickedHero=heroes[Math.floor(Math.random()*heroes.length)];
+  clueIndex=0;
+}
+
+function normalize(s){return s.toLowerCase().replace(/[^a-z]/g,"")}
 
 function saveName(){
   lover=loverName.value||"kamu";
   next();
 }
 
-/* HERO */
-const heroes=[
-  {name:"Iron Man",clues:["Aku Superhero MARVEL, manusia biasa tanpa kekuatan dari lahir.","Aku Superhero MARVEL, Senjataku teknologi canggih.","Aku Superhero MARVEL, Aku menyimpan Arc Reactor di dada."]},
-  {name:"Spider-Man",clues:["Aku Superhero MARVEL, Kekuataku muncul setelah sebuah gigitan.","Aku Superhero MARVEL, Aku bergerak lincah dan akrobatik diantara gedung-gedung.","Aku Superhero MARVEL, Aku dianggap murid oleh Tony Stark."]}
-];
-let pickedHero,clueIndex=0;
-
-function pickHero(){
-  pickedHero=heroes[Math.random()*heroes.length|0];
-  clueIndex=0;
-}
-
-function normalize(s){return s.toLowerCase().replace(/[^a-z]/g,"")}
-
 function guessHero(){
   if(playCount>=1){
-    heroClue.innerText="Kali ini bukan tentang superhero.";
-    heroMsg.innerText="Jawabannya kamu 🤍";
+    heroClue.innerText="Kali ini bukan soal superhero.";
+    heroMsg.innerHTML="Jawabannya kamu 🤍";
     heroNext.style.display="inline-block";
-    confetti(); return;
+    confetti();
+    return;
   }
-  const i=prompt("Siapa superhero ini?");
+
+  const i=prompt("siapa?");
   if(!i)return;
-  const u=normalize(i),a=normalize(pickedHero.name);
-  if(u===a||u.includes(a)||a.includes(u)){
-    heroMsg.innerHTML=`Benar 🤍<br>kamu peka banget,..<br>jadi iri, apa aku harus jadi teka-teki dulu ni.🤗`;
+  if(normalize(i).includes(normalize(pickedHero.name))){
+    heroMsg.innerHTML="Benar 🤍";
     heroNext.style.display="inline-block";
-    successSound.play();confetti();
+    confetti();
   }else{
     clueIndex++;
-    heroMsg.innerText="salah dong… tapi aku yakin kamu pasti bisa 🤏";
+    heroMsg.innerText="salah… tapi aku tunggu 🤏";
     if(clueIndex<pickedHero.clues.length)
       heroClue.innerText=pickedHero.clues[clueIndex];
   }
 }
-
-/* FLOW */
-const messages=[
-"Kamu nggak perlu jadi sempurna untuk jadi berharga. Cara kamu bertahan aja sudah cukup bikin bangga 🤍"
-];
-const secretMessage="Kalau kamu sampai main dua kali… berarti dari awal kamu memang peduli 🤍";
 
 function next(){
   pages[p].classList.remove("active");
@@ -211,14 +139,19 @@ function next(){
 
   if(p===1){
     pickHero();
-    heroClue.innerText=playCount>=1
+    heroClue.innerText=
+      playCount>=1
       ?"Aku capek bersembunyi."
       :pickedHero.clues[0];
     heroMsg.innerText="";
     heroNext.style.display="none";
   }
-  if(p===pages.length-1){
-    finalMessage.innerText=playCount>=1?secretMessage:messages[0];
+
+  if(p===2){
+    finalMessage.innerText=
+      playCount>=1
+      ?`${lover}, dari awal aku berharap kamu peka bukan ke hero… tapi ke aku 🤍`
+      :"Terima kasih sudah sampai sini 🤍";
   }
 }
 
@@ -227,6 +160,8 @@ function reset(){
   pages[p].classList.remove("active");
   p=0; pages[p].classList.add("active");
 }
+
+/* ===== CONFETTI ===== */
 function confetti(){
   for(let i=0;i<40;i++){
     const c=document.createElement("div");
