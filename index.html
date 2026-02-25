@@ -82,7 +82,7 @@ input{width:80%;text-align:center}
 <div class="page active">
 <div class="card">
 <h2 id="greet"></h2>
-<p>Siapa nama kamu hari ini?</p>
+<p>aku bisa panggil kamu apa?</p>
 <input id="loverName" placeholder="Tulis nama kamu 🤍">
 <button onclick="saveName()">Masuk</button>
 </div>
@@ -140,22 +140,8 @@ Kalau tujuannya kamu, rasanya pengen dicoba terus 🤍
 <div class="page">
 <div class="card">
 <h2>✨ Buat Kamu</h2>
-<p>
-Kamu mungkin nggak sadar,<br>
-tapi caramu bertahan itu indah.
-</p>
-<p>
-Nggak semua orang kuat dengan cara yang lembut.<br>
-Dan kamu… lembut tapi kuat.
-</p>
-<p>
-Sedikit bikin malu ya:<br>
-kalau ada yang pantas diperjuangkan pelan-pelan,<br>
-itu kamu 🤍
-</p>
+<p id="finalMessage"></p>
 <button onclick="reset()">ulang lagi</button>
-</div>
-</div>
 
 <script>
 const pages=document.querySelectorAll('.page');
@@ -230,27 +216,54 @@ let clueIndex = 0;
 
 document.getElementById("heroClue").innerText = pickedHero.clues[0];
 
-function guessHero(){
-  const a = prompt("Siapa superhero ini?");
-  if(!a) return;
+function normalize(str){
+  return str
+    .toLowerCase()
+    .replace(/[^a-z]/g,"");
+}
 
-  if(a.toLowerCase().includes(pickedHero.name.toLowerCase())){
+// hitung kemiripan string
+function similarity(a,b){
+  let longer = a.length > b.length ? a : b;
+  let shorter = a.length > b.length ? b : a;
+  let same = 0;
+
+  for(let i=0;i<shorter.length;i++){
+    if(longer.includes(shorter[i])) same++;
+  }
+  return same / longer.length;
+}
+
+function guessHero(){
+  const input = prompt("Siapa superhero ini?");
+  if(!input) return;
+
+  const user = normalize(input);
+  const answer = normalize(pickedHero.name);
+
+  const score = similarity(user, answer);
+
+  if(
+    user.includes(answer) ||
+    answer.includes(user) ||
+    score >= 0.7
+  ){
     document.getElementById("heroMsg").innerHTML =
       `Benar 🤍<br>
-       Kamu peka banget… keknya perasaan aku harus jadi teka-teki deh biar kmu sedikit peka upss.. hehe`;
+      Walaupun nggak sempurna ngetiknya,<br>
+      insting kamu tetap tepat.`;
+
     document.getElementById("heroNext").style.display="inline-block";
     document.getElementById("successSound").play();
     confetti();
   } else {
     clueIndex++;
     document.getElementById("heroMsg").innerText =
-      "Belum tepat… tapi kamu hampir 🤏";
+      "Masih belum… tapi rasanya kamu makin dekat 🤏";
+
     if(clueIndex < pickedHero.clues.length){
       document.getElementById("heroClue").innerText =
         pickedHero.clues[clueIndex];
-    } else {
-      document.getElementById("heroMsg").innerText =
-        "Oke, ini terakhir ya… percaya intuisi kamu 🤍";
     }
   }
 }
@@ -307,6 +320,34 @@ document.body.appendChild(c);
 setTimeout(()=>c.remove(),3000);
 }
 }
+
+const sweetMessages = [
+  "Kamu nggak perlu jadi sempurna untuk jadi berharga. Cara kamu bertahan aja sudah cukup bikin bangga 🤍",
+  "Kalau hari ini terasa berat, ingat ya… kamu nggak sendirian. Ada versi kamu yang lebih kuat dari yang kamu kira.",
+  "Kamu itu unik, bukan karena berbeda, tapi karena caramu tulus walau dunia kadang ribut.",
+  "Pelan nggak apa-apa. Yang penting kamu nggak berhenti jadi baik.",
+  "Ada hal-hal indah yang datang bukan karena cepat, tapi karena kamu sabar.",
+  "Kalau capek, istirahat. Kalau ragu, percaya diri sedikit. Kamu layak dapat hal baik.",
+  "Kamu mungkin nggak sadar, tapi kehadiranmu itu menenangkan.",
+  "Semoga hari ini kamu sadar: kamu pantas dicintai, tanpa syarat.",
+  "Kalau kamu lagi ragu sama diri sendiri… izinkan aku bilang: kamu cukup 🤍",
+  "Nggak semua orang punya hati selembut kamu. Tolong jaga itu, ya."
+];
+
+function showFinalMessage(){
+  const msg = sweetMessages[
+    Math.floor(Math.random() * sweetMessages.length)
+  ];
+  document.getElementById("finalMessage").innerText = msg;
+}
+
+// panggil saat halaman terakhir aktif
+const observer = new MutationObserver(() => {
+  if(pages[p] && pages[p].querySelector("#finalMessage")){
+    showFinalMessage();
+  }
+});
+observer.observe(document.body,{childList:true,subtree:true});
 </script>
 </body>
 </html>
