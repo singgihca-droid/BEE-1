@@ -138,15 +138,29 @@ Kalau tujuannya kamu👰🏻‍♀️, rasanya pengen dicoba terus 🤍
 
 <!-- PAGE 5 SALTING -->
 <div class="page">
-<div class="card">
-<h2>✨ Buat Kamu</h2>
-<p id="finalMessage"></p>
-<button onclick="reset()">ulang lagi</button>
-
+  <div class="card">
+    <h2>✨ Buat Kamu</h2>
+    <p id="finalMessage"></p>
+    <button onclick="reset()">ulang lagi</button>
+  </div>
+</div>
+    
 <script>
-const pages=document.querySelectorAll('.page');
-let p=0,lover="";
-
+document.body.addEventListener("click",()=>{
+  document.getElementById("tapSound").play();
+});
+const pages = document.querySelectorAll('.page');
+let p = 0;
+let lover = "";
+let playCount = 0;
+let bgPlayed = false;
+document.body.addEventListener("click",()=>{
+  if(!bgPlayed){
+    document.querySelector("audio").play();
+    bgPlayed = true;
+  }
+});
+    
 const h=new Date().getHours();
 document.getElementById("greet").innerText=
 `Hi Cloudybear, Selamat ${h<11?"Pagi":h<15?"Siang":h<18?"Sore":"Malam"} ☁️`;
@@ -155,9 +169,6 @@ function saveName(){
 lover=document.getElementById("loverName").value||"kamu";
 next();
 }
-
-function next(){pages[p].classList.remove('active');p++;pages[p].classList.add('active')}
-function reset(){pages[p].classList.remove('active');p=0;pages[p].classList.add('active')}
 
 const heroes = [
   {
@@ -242,6 +253,43 @@ function similarity(a,b){
   return same / longer.length;
 }
 
+let pickedHero;
+
+function pickHero(){
+  pickedHero = heroes[Math.floor(Math.random()*heroes.length)];
+  clueIndex = 0;
+  document.getElementById("heroClue").innerText = pickedHero.clues[0];
+}
+
+pickHero(); // awal
+
+function reset(){
+  playCount++;
+  pages[p].classList.remove('active');
+  p = 0;
+  pages[p].classList.add('active'); 
+    
+document.getElementById("mazeMsg").innerText="";
+document.getElementById("mazeNext").style.display="none";
+x=0; y=0;
+drawMaze();
+    
+  pickHero(); // ⬅️ ini penting
+  document.getElementById("heroMsg").innerText="";
+  document.getElementById("heroNext").style.display="none";
+}
+
+  clueIndex = 0;
+const heroNext = document.getElementById("heroNext");
+const mazeNext = document.getElementById("mazeNext");
+const heroMsg = document.getElementById("heroMsg");
+const mazeMsg = document.getElementById("mazeMsg");
+const heroClue = document.getElementById("heroClue");
+x = 0;
+y = 0;
+drawMaze();
+}
+    
 function guessHero(){
   const input = prompt("Siapa superhero ini?");
   if(!input) return;
@@ -343,19 +391,26 @@ const sweetMessages = [
 ];
 
 function showFinalMessage(){
-  const msg = sweetMessages[
-    Math.floor(Math.random() * sweetMessages.length)
-  ];
+  const list = playCount >= 1 ? secretMessages : sweetMessages;
+  const msg = list[Math.floor(Math.random() * list.length)];
   document.getElementById("finalMessage").innerText = msg;
 }
+const secretMessages = [
+  "Aku perhatiin… kamu balik lagi 🤍 mungkin bukan karena game.",
+  "Kalau ini cerita, aku mau kamu jadi ending-nya.",
+  "Ada yang spesial dari kamu, dan kamu bahkan nggak sadar itu."
+];
+    
+function next(){
+  pages[p].classList.remove('active');
+  p++;
+  pages[p].classList.add('active');
 
-// panggil saat halaman terakhir aktif
-const observer = new MutationObserver(() => {
-  if(pages[p] && pages[p].querySelector("#finalMessage")){
+  if(p === pages.length - 1){
     showFinalMessage();
   }
-});
-observer.observe(document.body,{childList:true,subtree:true});
+}
+    
 </script>
 </body>
 </html>
