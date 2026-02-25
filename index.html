@@ -91,19 +91,19 @@ input{width:80%;text-align:center}
 <!-- PAGE 2 GAME HERO -->
 <div class="page">
 <div class="card">
-<h2>🦸 Tebak Superhero Marvel</h2>
+<h2>🦸 Tebak Siapa aku?</h2>
 <p id="heroClue"></p>
-<button onclick="guessHero()">Jawab</button>
+<button onclick="guessHero()">Jawab ☝🏻</button>
 <p id="heroMsg"></p>
-<button id="heroNext" style="display:none" onclick="next()">Lanjut</button>
+<button id="heroNext" style="display:none" onclick="next()">Next ⏭️</button>
 </div>
 </div>
 
 <!-- PAGE 3 MAZE -->
 <div class="page">
 <div class="card">
-<h2>🤴 Pangeran Singgih</h2>
-<p>Bantu Singgih menemui cintanya 💖</p>
+<h2>🤴 Sebuah Legenda</h2>
+<p>Bantu Pangeran Singgih temui cintanya yaa 💖</p>
 <div class="maze" id="maze"></div>
 <div>
 <button onclick="move(0,-1)">⬆️</button><br>
@@ -112,27 +112,27 @@ input{width:80%;text-align:center}
 <button onclick="move(0,1)">⬇️</button>
 </div>
 <p id="mazeMsg"></p>
-<button id="mazeNext" style="display:none" onclick="next()">lanjut yuk 🤍</button>
+<button id="mazeNext" style="display:none" onclick="next()">lanjut yuk 👉🏻</button>
 </div>
 </div>
 
 <!-- PAGE 4 FILOSOFI -->
 <div class="page">
 <div class="card">
-<h2>💭 Sedikit Cerita</h2>
+<h2>💭 Alkisah Singkat</h2>
 <p>
-Singgih tadi nggak langsung sampai.<br>
+Perjalanan Pangeran tadi penuh rintangan.<br>
 Sempat salah jalan, kena jebakan, mulai lagi.
 </p>
 <p>
 Tapi dia terus jalan…<br>
-karena dia tahu, yang dituju itu berharga.
+karena dia tahu, yang ditujunya itu sangat berharga.
 </p>
 <p>
 Kadang hidup juga gitu.<br>
-Kalau tujuannya kamu, rasanya pengen dicoba terus 🤍
+Kalau tujuannya kamu👰🏻‍♀️, rasanya pengen dicoba terus 🤍
 </p>
-<button onclick="next()">lanjut</button>
+<button onclick="next()">lanjut lagi 👉🏻</button>
 </div>
 </div>
 
@@ -163,49 +163,57 @@ const heroes = [
   {
     name:"Iron Man",
     clues:[
-      "Dia manusia biasa tanpa kekuatan lahir.",
-      "Senjatanya adalah teknologi canggih.",
-      "Kalimat ikoniknya: I am Iron Man."
+      "Aku Superhero MARVEL, manusia biasa tanpa kekuatan dari lahir.",
+      "Aku Superhero MARVEL, Senjataku teknologi canggih.",
+      "Aku Superhero MARVEL, Aku menyimpan Arc Reactor di dada."
     ]
   },
   {
     name:"Spider-Man",
     clues:[
-      "Kekuatannya muncul setelah sebuah gigitan.",
-      "Dia sering membantu warga kecil.",
-      "Moto hidupnya: great power comes great responsibility."
+      "Aku Superhero MARVEL, Kekuataku muncul setelah sebuah gigitan.",
+      "Aku Superhero MARVEL, Aku bergerak lincah dan akrobatik diantara gedung-gedung.",
+      "Aku Superhero MARVEL, Aku dianggap murid oleh Tony Stark."
     ]
   },
   {
     name:"Captain America",
     clues:[
-      "Awalnya tubuhnya lemah.",
-      "Menggunakan perisai.",
-      "Simbol keadilan dan kepemimpinan."
+      "Aku Superhero MARVEL, Awalnya tubuhku lemah dan kurus.",
+      "Aku Superhero MARVEL, Aku membawa tameng sebagai senjata.",
+      "Aku Superhero MARVEL, Simbol keadilan dan kepemimpinan."
     ]
   },
   {
     name:"Thor",
     clues:[
-      "Bukan dari bumi.",
-      "Senjatanya palu.",
-      "Kekuatan petir ada di tangannya."
+      "Aku Superhero MARVEL, Aku bukan dari bumi.",
+      "Aku Superhero MARVEL, Senjata ku bernama Mjolnir.",
+      "Aku Superhero MARVEL, Kekuatan petir ada di tanganku."
+    ]
+  },
+  {
+    name:"Hulk",
+    clues:[
+      "Aku Superhero MARVEL, Saat emosi tubuhku tak terkendali.",
+      "Aku Superhero MARVEL, Tubuhku besar, tahan banting, hijau.",
+      "Aku Superhero MARVEL, Aku ilmuwan jenius, namun memiliki konflik batin."
     ]
   },
   {
     name:"Black Panther",
     clues:[
-      "Seorang raja.",
-      "Berasal dari Wakanda.",
-      "Menggunakan kostum vibranium."
+      "Aku Superhero MARVEL, Aku seorang raja berkulit gelap.",
+      "Aku Superhero MARVEL, Aku berasal dari Wakanda.",
+      "Aku Superhero MARVEL, Aku memakai kostum vibranium."
     ]
   },
   {
     name:"Doctor Strange",
     clues:[
-      "Ahli dalam waktu dan dimensi.",
-      "Menggunakan mantra.",
-      "Dulunya seorang dokter bedah."
+      "Aku Superhero MARVEL, Aku ahli dalam waktu dan dimensi.",
+      "Aku Superhero MARVEL, Aku sering menggunakan mantra.",
+      "Aku Superhero MARVEL, Dulunya aku seorang dokter bedah."
     ]
   }
 ];
@@ -250,8 +258,8 @@ function guessHero(){
   ){
     document.getElementById("heroMsg").innerHTML =
       `Benar 🤍<br>
-      Walaupun nggak sempurna ngetiknya,<br>
-      insting kamu tetap tepat.`;
+      kamu peka banget,..<br>
+      jadi iri, apa aku harus jadi teka-teki dulu ni.`;
 
     document.getElementById("heroNext").style.display="inline-block";
     document.getElementById("successSound").play();
@@ -259,7 +267,7 @@ function guessHero(){
   } else {
     clueIndex++;
     document.getElementById("heroMsg").innerText =
-      "Masih belum… tapi rasanya kamu makin dekat 🤏";
+      "salah dong… tapi aku yakin kamu pasti bisa 🤏";
 
     if(clueIndex < pickedHero.clues.length){
       document.getElementById("heroClue").innerText =
@@ -285,7 +293,7 @@ mazeMap.forEach((r,j)=>r.forEach((c,i)=>{
 const d=document.createElement("div");
 d.className="cell "+c;
 if(i==x&&j==y)d.textContent="🤴";
-if(c=="exit")d.textContent="💖";
+if(c=="exit")d.textContent="👸🏻";
 if(c=="trap")d.textContent="💥";
 m.appendChild(d);
 }));
@@ -303,7 +311,7 @@ document.getElementById("mazeMsg").innerText="Singgih jatuh… tapi bangkit lagi
 }
 if(mazeMap[ny][nx]=="exit"){
 document.getElementById("mazeMsg").innerText=
-`Singgih bertemu ${lover} 🤍`;
+`Akhirnya Pangeran Singgih bertemu ${lover} 🤍 untuk bisa bahagia 👰🏻‍♀️🤵🏻`;
 document.getElementById("mazeNext").style.display="inline-block";
 confetti();
 }
