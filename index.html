@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Cloudybear Adventure 🤍</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #ffe4ec, #fff1f6);
+        color: #ff5c8a;
+        overflow: hidden;
+    }
+
+    .clouds {
+        position: fixed;
+        inset: 0;
+        background: url("https://i.ibb.co/7J2Yk9k/clouds.png") repeat-x;
+        animation: cloudsMove 70s linear infinite;
+        opacity: 0.25;
+        z-index: -1;
+    }
+
+    @keyframes cloudsMove {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+    }
+
+    .page {
+        display: none;
+        min-height: 100vh;
+        padding: 40px 20px;
+        box-sizing: border-box;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .active { display: flex; }
+
+    .card {
+        background: rgba(255,255,255,0.9);
+        border-radius: 24px;
+        padding: 30px;
+        max-width: 520px;
+        box-shadow: 0 12px 30px rgba(255,92,138,0.25);
+        animation: fadeUp .8s ease;
+    }
+
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    button {
+        margin-top: 15px;
+        padding: 10px 22px;
+        border: none;
+        border-radius: 25px;
+        background: #ff7aa2;
+        color: white;
+        font-size: 1em;
+        cursor: pointer;
+    }
+
+    .tap {
+        margin-top: 20px;
+        font-size: .85em;
+        opacity: .7;
+    }
+
+    /* confetti */
+    .confetti {
+        position: fixed;
+        top: -10px;
+        width: 10px;
+        height: 10px;
+        animation: fall 3s linear forwards;
+    }
+
+    @keyframes fall {
+        to { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* maze */
+    .maze {
+        display: grid;
+        grid-template-columns: repeat(5, 50px);
+        gap: 5px;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .cell {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        background: #ffe6f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+    }
+
+    .wall { background: #ffb6c1; }
+    .exit { background: #b2f2bb; }
+    .trap { background: #ff6b6b; color: white; }
+
+    .controls button { margin: 5px; }
+</style>
+</head>
+
+<body>
+
+<div class="clouds"></div>
+
+<!-- 🎵 MUSIC -->
+<audio autoplay loop>
+    <source src="https://dl.sndup.net/dkpn/Beautiful-Paul.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 🔊 SOUND -->
+<audio id="tapSound" src="https://www.soundjay.com/buttons/sounds/button-09.mp3"></audio>
+<audio id="successSound" src="https://www.soundjay.com/human/sounds/children-yay-01.mp3"></audio>
+
+<!-- PAGE 1 -->
+<div class="page active" onclick="tap(next)">
+    <div class="card">
+        <h2 id="greeting"></h2>
+        <p>
+            Aku cuma mampir sebentar.<br>
+            Duduk pelan-pelan di harimu 🤍
+        </p>
+        <div class="tap">☁️ sentuh layar</div>
+    </div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" onclick="tap(next)">
+    <div class="card">
+        <h2>Eh…</h2>
+        <p>
+            Kamu nggak perlu jawab apa-apa kok.<br>
+            Aku cuma pengen kamu ngerasa ditemani 😳
+        </p>
+        <div class="tap">✨ lanjut</div>
+    </div>
+</div>
+
+<!-- PAGE 3 GAME 1 -->
+<div class="page">
+    <div class="card">
+        <h2>🦸 Tebak Superhero</h2>
+        <p id="heroHint"></p>
+        <button onclick="guessHero()">Tebak</button>
+        <p id="heroResult"></p>
+        <button id="heroNext" style="display:none" onclick="tap(next)">Lanjut</button>
+    </div>
+</div>
+
+<!-- PAGE 4 GAME 2 -->
+<div class="page">
+    <div class="card">
+        <h2>🦖 Bantu Dino Nailong</h2>
+        <p>Bantu dia keluar dari labirin. Pelan-pelan ya 🤍</p>
+
+        <div class="maze" id="maze"></div>
+
+        <div class="controls">
+            <button onclick="move(0,-1)">⬆️</button><br>
+            <button onclick="move(-1,0)">⬅️</button>
+            <button onclick="move(1,0)">➡️</button><br>
+            <button onclick="move(0,1)">⬇️</button>
+        </div>
+
+        <p id="mazeResult"></p>
+        <button id="mazeNext" style="display:none" onclick="tap(next)">
+            lanjut yuk 🤍
+        </button>
+    </div>
+</div>
+
+<!-- PAGE 5 -->
+<div class="page" onclick="tap(reset)">
+    <div class="card">
+        <h2>💌 Sedikit Filosofi</h2>
+        <p>
+            Kadang kita nyasar, kadang kena jebakan.<br>
+            Tapi kamu tetap jalan.
+        </p>
+        <p>
+            Dan itu… sudah hebat.
+        </p>
+        <p>
+            Gombal dikit ya:<br>
+            orang yang terus mencoba itu diam-diam sedang dicintai proses 🤍
+        </p>
+        <div class="tap">☁️ sentuh untuk ulang</div>
+    </div>
+</div>
+
+<script>
+    /* greeting */
+    const h = new Date().getHours();
+    let time = h < 11 ? "Pagi" : h < 15 ? "Siang" : h < 18 ? "Sore" : "Malam";
+    document.getElementById("greeting").innerText =
+        `Hi Cloudybear, Selamat ${time} ☁️`;
+
+    const pages = document.querySelectorAll(".page");
+    let page = 0;
+    const tapSound = document.getElementById("tapSound");
+    const successSound = document.getElementById("successSound");
+
+    function tap(fn){ tapSound.play(); fn(); }
+    function next(){ pages[page].classList.remove("active"); page++; pages[page].classList.add("active"); }
+    function reset(){ pages[page].classList.remove("active"); page=0; pages[page].classList.add("active"); }
+
+    /* GAME 1 */
+    const hero = {name:"Spider-Man", hint:"Bisa nempel di dinding, baik hati, pantang nyerah"};
+    document.getElementById("heroHint").innerText = hero.hint;
+
+    function guessHero(){
+        const a = prompt("Siapa aku?");
+        if(a && a.toLowerCase().includes(hero.name.toLowerCase())){
+            successSound.play();
+            document.getElementById("heroResult").innerText =
+                "Benar 🤍 Kamu peka… dan itu jarang.";
+            document.getElementById("heroNext").style.display="inline-block";
+            confetti();
+        } else {
+            document.getElementById("heroResult").innerText =
+                "Belum tepat. Coba lagi ya.";
+        }
+    }
+
+    /* GAME 2 */
+    const mazeMap = [
+        ["D","","wall","trap",""],
+        ["wall","","wall","",""],
+        ["","","","wall",""],
+        ["trap","wall","","",""],
+        ["","","wall","","exit"]
+    ];
+    let dx=0, dy=0;
+
+    function drawMaze(){
+        const m=document.getElementById("maze");
+        m.innerHTML="";
+        mazeMap.forEach((r,y)=>r.forEach((c,x)=>{
+            const d=document.createElement("div");
+            d.className="cell "+c;
+            if(x==dx&&y==dy) d.textContent="🦖";
+            if(c=="exit") d.textContent="🚪";
+            if(c=="trap") d.textContent="💥";
+            m.appendChild(d);
+        }));
+    }
+    drawMaze();
+
+    function move(x,y){
+        const nx=dx+x, ny=dy+y;
+        if(nx<0||ny<0||nx>4||ny>4) return;
+        if(mazeMap[ny][nx]=="wall") return;
+
+        dx=nx; dy=ny;
+        if(mazeMap[ny][nx]=="trap"){ dx=0; dy=0; document.getElementById("mazeResult").innerText="Ups… balik lagi 😖"; }
+        if(mazeMap[ny][nx]=="exit"){
+            successSound.play();
+            document.getElementById("mazeResult").innerText="Dino berhasil keluar 🥳";
+            document.getElementById("mazeNext").style.display="inline-block";
+            confetti();
+        }
+        drawMaze();
+    }
+
+    function confetti(){
+        for(let i=0;i<40;i++){
+            const c=document.createElement("div");
+            c.className="confetti";
+            c.style.left=Math.random()*100+"vw";
+            c.style.background=["#ff7aa2","#ffd1dc","#b2f2bb"][Math.floor(Math.random()*3)];
+            document.body.appendChild(c);
+            setTimeout(()=>c.remove(),3000);
+        }
+    }
+</script>
+
+</body>
+</html>
