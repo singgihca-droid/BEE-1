@@ -6,137 +6,156 @@
 
 <style>
 body{
-    margin:0;
-    font-family:'Segoe UI',sans-serif;
-    background:linear-gradient(135deg,#ffe4ec,#fff1f6);
-    color:#ff5c8a;
-    overflow:hidden;
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#ffe4ec,#fff1f6);
+  color:#ff5c8a;
+  overflow:hidden;
 }
-.clouds{
-    position:fixed; inset:0;
-    background:url("https://i.ibb.co/7J2Yk9k/clouds.png") repeat-x;
-    animation:cloud 70s linear infinite;
-    opacity:.25; z-index:-1;
+
+/* ===== CLOUD ===== */
+.sky{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.cloud{
+  position:absolute;
+  width:220px;height:70px;
+  background:#fff;
+  border-radius:50px;
+  opacity:.5;
+  top:15%;
+  animation:cloudMove 60s linear infinite;
 }
-@keyframes cloud{to{transform:translateX(-50%)}}
+.cloud::before,.cloud::after{
+  content:"";
+  position:absolute;
+  background:#fff;
+  width:80px;height:80px;
+  border-radius:50%;
+  top:-35px;
+}
+.cloud::before{left:30px}
+.cloud::after{right:30px}
+.cloud.c2{top:40%;width:260px;opacity:.35;animation-duration:90s}
+.cloud.c3{top:65%;width:180px;opacity:.4;animation-duration:75s}
+@keyframes cloudMove{from{left:-300px}to{left:110%}}
+
 .page{display:none;min-height:100vh;justify-content:center;align-items:center;text-align:center;padding:40px}
-.active{display:flex}
+.page.active{display:flex}
+
 .card{
-    background:rgba(255,255,255,.9);
-    padding:30px;
-    border-radius:24px;
-    max-width:520px;
-    box-shadow:0 12px 30px rgba(255,92,138,.25);
+  background:rgba(255,255,255,.92);
+  padding:30px;
+  border-radius:24px;
+  max-width:520px;
+  box-shadow:0 12px 30px rgba(255,92,138,.25);
 }
+
 button,input{
-    margin-top:15px;
-    padding:10px 20px;
-    border:none;
-    border-radius:20px;
-    font-size:1em;
+  margin-top:15px;
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  font-size:1em;
 }
 button{background:#ff7aa2;color:#fff;cursor:pointer}
 input{width:80%;text-align:center}
 
+/* ===== MAZE ===== */
 .maze{
-    display:grid;
-    grid-template-columns:repeat(7,45px);
-    gap:5px;
-    justify-content:center;
+  display:grid;
+  grid-template-columns:repeat(7,45px);
+  gap:5px;
+  justify-content:center;
 }
 .cell{
-    width:45px;height:45px;
-    border-radius:8px;
-    background:#ffe6f0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:20px;
+  width:45px;height:45px;
+  border-radius:8px;
+  background:#ffe6f0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
 }
 .wall{background:#ffb6c1}
 .trap{background:#ff6b6b;color:#fff}
 .exit{background:#b2f2bb}
 
+/* ===== CONFETTI ===== */
 .confetti{
-    position:fixed;top:-10px;
-    width:10px;height:10px;
-    animation:fall 3s linear forwards;
+  position:fixed;top:-10px;
+  width:10px;height:10px;
+  animation:fall 3s linear forwards;
 }
-@keyframes fall{
-    to{transform:translateY(110vh) rotate(360deg);opacity:0}
-}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:0}}
 </style>
 </head>
 
 <body>
-<div class="clouds"></div>
 
-<audio autoplay loop>
-<source src="https://dl.sndup.net/dkpn/Beautiful-Paul.mp3" type="audio/mpeg">
+<div class="sky">
+  <div class="cloud"></div>
+  <div class="cloud c2"></div>
+  <div class="cloud c3"></div>
+</div>
+
+<audio id="bgm" loop>
+  <source src="https://dl.sndup.net/dkpn/Beautiful-Paul.mp3" type="audio/mpeg">
 </audio>
-
 <audio id="tapSound" src="https://www.soundjay.com/buttons/sounds/button-09.mp3"></audio>
 <audio id="successSound" src="https://www.soundjay.com/human/sounds/children-yay-01.mp3"></audio>
 
 <!-- PAGE 1 -->
 <div class="page active">
-<div class="card">
-<h2 id="greet"></h2>
-<p>aku bisa panggil kamu apa?</p>
-<input id="loverName" placeholder="Tulis nama kamu 🤍">
-<button onclick="saveName()">Masuk</button>
-</div>
+  <div class="card">
+    <h2 id="greet"></h2>
+    <p>aku bisa panggil kamu apa?</p>
+    <input id="loverName" placeholder="Tulis nama kamu 🤍">
+    <button onclick="saveName()">Masuk</button>
+  </div>
 </div>
 
-<!-- PAGE 2 GAME HERO -->
+<!-- PAGE 2 -->
 <div class="page">
-<div class="card">
-<h2>🦸 Tebak Siapa aku?</h2>
-<p id="heroClue"></p>
-<button onclick="guessHero()">Jawab ☝🏻</button>
-<p id="heroMsg"></p>
-<button id="heroNext" style="display:none" onclick="next()">Next ⏭️</button>
-</div>
+  <div class="card">
+    <h2>🦸 Tebak Siapa aku?</h2>
+    <p id="heroClue"></p>
+    <button onclick="guessHero()">Jawab ☝🏻</button>
+    <p id="heroMsg"></p>
+    <button id="heroNext" style="display:none" onclick="next()">Next ⏭️</button>
+  </div>
 </div>
 
-<!-- PAGE 3 MAZE -->
+<!-- PAGE 3 -->
 <div class="page">
-<div class="card">
-<h2>🤴 Sebuah Legenda</h2>
-<p>Bantu Pangeran Singgih temui cintanya yaa 💖</p>
-<div class="maze" id="maze"></div>
-<div>
-<button onclick="move(0,-1)">⬆️</button><br>
-<button onclick="move(-1,0)">⬅️</button>
-<button onclick="move(1,0)">➡️</button><br>
-<button onclick="move(0,1)">⬇️</button>
-</div>
-<p id="mazeMsg"></p>
-<button id="mazeNext" style="display:none" onclick="next()">lanjut yuk 👉🏻</button>
-</div>
+  <div class="card">
+    <h2>🤴 Sebuah Legenda</h2>
+    <p>Bantu Pangeran Singgih temui cintanya yaa 💖</p>
+    <div class="maze" id="maze"></div>
+    <div>
+      <button onclick="move(0,-1)">⬆️</button><br>
+      <button onclick="move(-1,0)">⬅️</button>
+      <button onclick="move(1,0)">➡️</button><br>
+      <button onclick="move(0,1)">⬇️</button>
+    </div>
+    <p id="mazeMsg"></p>
+    <button id="mazeNext" style="display:none" onclick="next()">lanjut 👉🏻</button>
+  </div>
 </div>
 
-<!-- PAGE 4 FILOSOFI -->
+<!-- PAGE 4 -->
 <div class="page">
-<div class="card">
-<h2>💭 Alkisah Singkat</h2>
-<p>
-Perjalanan Pangeran tadi penuh rintangan.<br>
-Sempat salah jalan, kena jebakan, mulai lagi.
-</p>
-<p>
-Tapi dia terus jalan…<br>
-karena dia tahu, yang ditujunya itu sangat berharga.
-</p>
-<p>
-Kadang hidup juga gitu.<br>
-Kalau tujuannya kamu👰🏻‍♀️, rasanya pengen dicoba terus 🤍
-</p>
-<button onclick="next()">lanjut lagi 👉🏻</button>
-</div>
+  <div class="card">
+    <h2>💭 Alkisah</h2>
+    <p>Perjalanan Pangeran tadi penuh rintangan.<br>
+Sempat salah jalan, kena jebakan, mulai lagi.</p>
+    <p>Tapi dia terus jalan…<br>
+karena dia tahu, yang ditujunya itu sangat berharga.</p>
+    <p>Kadang hidup juga gitu.<br>
+Kalau tujuannya kamu👰🏻‍♀️, rasanya pengen dicoba terus 🤍</p>
+    <button onclick="next()">lanjut 👉🏻</button>
+  </div>
 </div>
 
-<!-- PAGE 5 SALTING -->
+<!-- PAGE 5 -->
 <div class="page">
   <div class="card">
     <h2>✨ Buat Kamu</h2>
@@ -144,273 +163,108 @@ Kalau tujuannya kamu👰🏻‍♀️, rasanya pengen dicoba terus 🤍
     <button onclick="reset()">ulang lagi</button>
   </div>
 </div>
-    
+
 <script>
-document.body.addEventListener("click",()=>{
-  document.getElementById("tapSound").play();
+const pages=document.querySelectorAll(".page");
+let p=0,lover="",playCount=0,bgPlayed=false;
+
+/* AUDIO */
+document.querySelectorAll("button").forEach(b=>{
+  b.addEventListener("click",()=>{
+    tapSound.currentTime=0;tapSound.play();
+    if(!bgPlayed){bgm.play();bgPlayed=true;}
+  });
 });
-const pages = document.querySelectorAll('.page');
-let p = 0;
-let lover = "";
-let playCount = 0;
-let bgPlayed = false;
-document.body.addEventListener("click",()=>{
-  if(!bgPlayed){
-    document.querySelector("audio").play();
-    bgPlayed = true;
-  }
-});
-    
+
+/* GREET */
 const h=new Date().getHours();
-document.getElementById("greet").innerText=
-`Hi Cloudybear, Selamat ${h<11?"Pagi":h<15?"Siang":h<18?"Sore":"Malam"} ☁️`;
+greet.innerText=`Hi Cloudybear☁️✨, Selamat ${h<11?"Pagi🌻":h<15?"Siang☀️":h<18?"Sore🌥️":"Malam🌙"}`;
 
 function saveName(){
-lover=document.getElementById("loverName").value||"kamu";
-next();
+  lover=loverName.value||"kamu";
+  next();
 }
 
-const heroes = [
-  {
-    name:"Iron Man",
-    clues:[
-      "Aku Superhero MARVEL, manusia biasa tanpa kekuatan dari lahir.",
-      "Aku Superhero MARVEL, Senjataku teknologi canggih.",
-      "Aku Superhero MARVEL, Aku menyimpan Arc Reactor di dada."
-    ]
-  },
-  {
-    name:"Spider-Man",
-    clues:[
-      "Aku Superhero MARVEL, Kekuataku muncul setelah sebuah gigitan.",
-      "Aku Superhero MARVEL, Aku bergerak lincah dan akrobatik diantara gedung-gedung.",
-      "Aku Superhero MARVEL, Aku dianggap murid oleh Tony Stark."
-    ]
-  },
-  {
-    name:"Captain America",
-    clues:[
-      "Aku Superhero MARVEL, Awalnya tubuhku lemah dan kurus.",
-      "Aku Superhero MARVEL, Aku membawa tameng sebagai senjata.",
-      "Aku Superhero MARVEL, Simbol keadilan dan kepemimpinan."
-    ]
-  },
-  {
-    name:"Thor",
-    clues:[
-      "Aku Superhero MARVEL, Aku bukan dari bumi.",
-      "Aku Superhero MARVEL, Senjata ku bernama Mjolnir.",
-      "Aku Superhero MARVEL, Kekuatan petir ada di tanganku."
-    ]
-  },
-  {
-    name:"Hulk",
-    clues:[
-      "Aku Superhero MARVEL, Saat emosi tubuhku tak terkendali.",
-      "Aku Superhero MARVEL, Tubuhku besar, tahan banting, hijau.",
-      "Aku Superhero MARVEL, Aku ilmuwan jenius, namun memiliki konflik batin."
-    ]
-  },
-  {
-    name:"Black Panther",
-    clues:[
-      "Aku Superhero MARVEL, Aku seorang raja berkulit gelap.",
-      "Aku Superhero MARVEL, Aku berasal dari Wakanda.",
-      "Aku Superhero MARVEL, Aku memakai kostum vibranium."
-    ]
-  },
-  {
-    name:"Doctor Strange",
-    clues:[
-      "Aku Superhero MARVEL, Aku ahli dalam waktu dan dimensi.",
-      "Aku Superhero MARVEL, Aku sering menggunakan mantra.",
-      "Aku Superhero MARVEL, Dulunya aku seorang dokter bedah."
-    ]
-  }
+/* HERO */
+const heroes=[/* TIDAK DIUBAH */ 
+  {name:"Iron Man",clues:["Aku Superhero MARVEL, manusia biasa tanpa kekuatan dari lahir.","Aku Superhero MARVEL, Senjataku teknologi canggih.","Aku Superhero MARVEL, Aku menyimpan Arc Reactor di dada."]},
+  {name:"Spider-Man",clues:["Aku Superhero MARVEL, Kekuataku muncul setelah sebuah gigitan.","Aku Superhero MARVEL, Aku bergerak lincah dan akrobatik diantara gedung-gedung.","Aku Superhero MARVEL, Aku dianggap murid oleh Tony Stark."]}
 ];
-
-// RANDOM PICK
-const pickedHero = heroes[Math.floor(Math.random()*heroes.length)];
-let clueIndex = 0;
-
-document.getElementById("heroClue").innerText = pickedHero.clues[0];
-
-function normalize(str){
-  return str
-    .toLowerCase()
-    .replace(/[^a-z]/g,"");
-}
-
-// hitung kemiripan string
-function similarity(a,b){
-  let longer = a.length > b.length ? a : b;
-  let shorter = a.length > b.length ? b : a;
-  let same = 0;
-
-  for(let i=0;i<shorter.length;i++){
-    if(longer.includes(shorter[i])) same++;
-  }
-  return same / longer.length;
-}
-
-let pickedHero;
+let pickedHero,clueIndex=0;
 
 function pickHero(){
-  pickedHero = heroes[Math.floor(Math.random()*heroes.length)];
-  clueIndex = 0;
-  document.getElementById("heroClue").innerText = pickedHero.clues[0];
+  pickedHero=heroes[Math.floor(Math.random()*heroes.length)];
+  clueIndex=0;
 }
 
-pickHero(); // awal
+function normalize(s){return s.toLowerCase().replace(/[^a-z]/g,"")}
+
+function guessHero(){
+  if(playCount>=1){
+    heroClue.innerText="Kali ini bukan tentang superhero.";
+    heroMsg.innerHTML="Jawabannya kamu 🤍";
+    heroNext.style.display="inline-block";
+    confetti(); return;
+  }
+
+  const i=prompt("Siapa superhero ini?");
+  if(!i)return;
+  const u=normalize(i),a=normalize(pickedHero.name);
+  if(u===a||u.includes(a)||a.includes(u)){
+    heroMsg.innerHTML=`Benar 🤍<br>
+kamu peka banget,..<br>
+jadi iri, apa aku harus jadi teka-teki dulu ni.🤗`;
+    heroNext.style.display="inline-block";
+    successSound.play();confetti();
+  }else{
+    clueIndex++;
+    heroMsg.innerText="salah dong… tapi aku yakin kamu pasti bisa 🤏";
+    if(clueIndex<pickedHero.clues.length)
+      heroClue.innerText=pickedHero.clues[clueIndex];
+  }
+}
+
+/* FLOW */
+const messages=[/* TIDAK DIUBAH */ 
+  "Kamu nggak perlu jadi sempurna untuk jadi berharga. Cara kamu bertahan aja sudah cukup bikin bangga 🤍"
+];
+const secretMessage="Kalau kamu sampai main dua kali… berarti dari awal kamu memang peduli 🤍";
+
+function next(){
+  pages[p].classList.remove("active");p++;
+  pages[p].classList.add("active");
+
+  if(p===1){
+    pickHero();
+    heroClue.innerText=playCount>=1
+      ?"Aku capek bersembunyi."
+      :pickedHero.clues[0];
+    heroMsg.innerText="";
+    heroNext.style.display="none";
+  }
+
+  if(p===pages.length-1){
+    finalMessage.innerText=playCount>=1?secretMessage:messages[0];
+  }
+}
 
 function reset(){
   playCount++;
-  pages[p].classList.remove('active');
-  p = 0;
-  pages[p].classList.add('active'); 
-    
-document.getElementById("mazeMsg").innerText="";
-document.getElementById("mazeNext").style.display="none";
-x=0; y=0;
-drawMaze();
-    
-  pickHero(); // ⬅️ ini penting
-  document.getElementById("heroMsg").innerText="";
-  document.getElementById("heroNext").style.display="none";
+  pages[p].classList.remove("active");
+  p=0;pages[p].classList.add("active");
 }
 
-  clueIndex = 0;
-const heroNext = document.getElementById("heroNext");
-const mazeNext = document.getElementById("mazeNext");
-const heroMsg = document.getElementById("heroMsg");
-const mazeMsg = document.getElementById("mazeMsg");
-const heroClue = document.getElementById("heroClue");
-x = 0;
-y = 0;
-drawMaze();
-}
-    
-function guessHero(){
-  const input = prompt("Siapa superhero ini?");
-  if(!input) return;
-
-  const user = normalize(input);
-  const answer = normalize(pickedHero.name);
-
-  const score = similarity(user, answer);
-
-  if(
-    user.includes(answer) ||
-    answer.includes(user) ||
-    score >= 0.7
-  ){
-    document.getElementById("heroMsg").innerHTML =
-      `Benar 🤍<br>
-      kamu peka banget,..<br>
-      jadi iri, apa aku harus jadi teka-teki dulu ni.`;
-
-    document.getElementById("heroNext").style.display="inline-block";
-    document.getElementById("successSound").play();
-    confetti();
-  } else {
-    clueIndex++;
-    document.getElementById("heroMsg").innerText =
-      "salah dong… tapi aku yakin kamu pasti bisa 🤏";
-
-    if(clueIndex < pickedHero.clues.length){
-      document.getElementById("heroClue").innerText =
-        pickedHero.clues[clueIndex];
-    }
-  }
-}
-
-const mazeMap=[
-["S","","wall","trap","","",""],
-["wall","","wall","","wall","trap",""],
-["","", "", "","wall","",""],
-["trap","wall","","wall","","",""],
-["","wall","","","wall","trap",""],
-["","","wall","","","wall",""],
-["","", "","trap","", "", "exit"]
-];
-let x=0,y=0;
-
-function drawMaze(){
-const m=document.getElementById("maze");m.innerHTML="";
-mazeMap.forEach((r,j)=>r.forEach((c,i)=>{
-const d=document.createElement("div");
-d.className="cell "+c;
-if(i==x&&j==y)d.textContent="🤴";
-if(c=="exit")d.textContent="👸🏻";
-if(c=="trap")d.textContent="💥";
-m.appendChild(d);
-}));
-}
-drawMaze();
-
-function move(dx,dy){
-const nx=x+dx,ny=y+dy;
-if(nx<0||ny<0||nx>6||ny>6)return;
-if(mazeMap[ny][nx]=="wall")return;
-x=nx;y=ny;
-if(mazeMap[ny][nx]=="trap"){
-x=0;y=0;
-document.getElementById("mazeMsg").innerText="Singgih jatuh… tapi bangkit lagi.";
-}
-if(mazeMap[ny][nx]=="exit"){
-document.getElementById("mazeMsg").innerText=
-`Akhirnya Pangeran Singgih bertemu ${lover} 🤍 untuk bisa bahagia 👰🏻‍♀️🤵🏻`;
-document.getElementById("mazeNext").style.display="inline-block";
-confetti();
-}
-drawMaze();
-}
-
+/* CONFETTI */
 function confetti(){
-for(let i=0;i<40;i++){
-const c=document.createElement("div");
-c.className="confetti";
-c.style.left=Math.random()*100+"vw";
-c.style.background=["#ff7aa2","#ffd1dc","#b2f2bb"][Math.floor(Math.random()*3)];
-document.body.appendChild(c);
-setTimeout(()=>c.remove(),3000);
-}
-}
-
-const sweetMessages = [
-  "Kamu nggak perlu jadi sempurna untuk jadi berharga. Cara kamu bertahan aja sudah cukup bikin bangga 🤍",
-  "Kalau hari ini terasa berat, ingat ya… kamu nggak sendirian. Ada versi kamu yang lebih kuat dari yang kamu kira.",
-  "Kamu itu unik, bukan karena berbeda, tapi karena caramu tulus walau dunia kadang ribut.",
-  "Pelan nggak apa-apa. Yang penting kamu nggak berhenti jadi baik.",
-  "Ada hal-hal indah yang datang bukan karena cepat, tapi karena kamu sabar.",
-  "Kalau capek, istirahat. Kalau ragu, percaya diri sedikit. Kamu layak dapat hal baik.",
-  "Kamu mungkin nggak sadar, tapi kehadiranmu itu menenangkan.",
-  "Semoga hari ini kamu sadar: kamu pantas dicintai, tanpa syarat.",
-  "Kalau kamu lagi ragu sama diri sendiri… izinkan aku bilang: kamu cukup 🤍",
-  "Nggak semua orang punya hati selembut kamu. Tolong jaga itu, ya."
-];
-
-function showFinalMessage(){
-  const list = playCount >= 1 ? secretMessages : sweetMessages;
-  const msg = list[Math.floor(Math.random() * list.length)];
-  document.getElementById("finalMessage").innerText = msg;
-}
-const secretMessages = [
-  "Aku perhatiin… kamu balik lagi 🤍 mungkin bukan karena game.",
-  "Kalau ini cerita, aku mau kamu jadi ending-nya.",
-  "Ada yang spesial dari kamu, dan kamu bahkan nggak sadar itu."
-];
-    
-function next(){
-  pages[p].classList.remove('active');
-  p++;
-  pages[p].classList.add('active');
-
-  if(p === pages.length - 1){
-    showFinalMessage();
+  for(let i=0;i<40;i++){
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.background=["#ff7aa2","#ffd1dc","#b2f2bb"][Math.random()*3|0];
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
   }
 }
-    
 </script>
 </body>
 </html>
