@@ -189,7 +189,7 @@ let p=0,name="",play=0;
 const pages=document.querySelectorAll('.page');
 
 const h=new Date().getHours();
-greet.innerText=`Hi Cloudybear☁️✨, Selamat ${h<11?"Pagi":h<15?"Siang":h<18?"Sore":"Malam"}`;
+greet.innerText=`Hi Cloudybear☁️✨, Selamat ${h<11?"Pagi🌻":h<15?"Siang☀️":h<18?"Sore🌈":"Malam🌙"}`;
 
 function next(){
   pages[p].classList.remove("active");
@@ -266,7 +266,7 @@ function guess(){
 
 /* PAGE 3 – MAZE */
 const map=[
-["S","","wall","trap","","","wall","",""],
+["S","","wall","","","","wall","",""],
 ["wall","","wall","","wall","","wall","",""],
 ["","","","","wall","","","trap",""],
 ["trap","wall","","wall","","wall","","",""],
@@ -283,7 +283,7 @@ function draw(){
   map.forEach((r,j)=>r.forEach((c,i)=>{
     const d=document.createElement("div");
     d.className="cell "+c;
-    if(i==x&&j==y)d.textContent="🤴";
+    if(i==x&&j==y)d.textContent="💖";
     if(c=="exit")d.textContent="👰🏻‍♀️🤵🏻";
     if(c=="trap")d.textContent="💥";
     maze.appendChild(d);
