@@ -171,6 +171,7 @@ input{
 <div class="page">
   <div class="card">
     <p id="motivation"></p>
+    <div class="big-love">👰🏻‍♀️🤵🏻</div>
     <button onclick="choose('comeback')">comeback</button>
     <button onclick="choose('here')">here with me</button>
   </div>
@@ -283,8 +284,8 @@ function draw(){
   map.forEach((r,j)=>r.forEach((c,i)=>{
     const d=document.createElement("div");
     d.className="cell "+c;
-    if(i==x&&j==y)d.textContent="💖";
-    if(c=="exit")d.textContent="👰🏻‍♀️🤵🏻";
+    if(i==x&&j==y)d.textContent="🤵🏻";
+    if(c=="exit")d.textContent="👰🏻‍♀️";
     if(c=="trap")d.textContent="💥";
     maze.appendChild(d);
   }));
@@ -300,10 +301,11 @@ function move(dx,dy){
   if(map[ny][nx]=="exit"){
     mazeMsg.innerHTML=`
     <div class="big-love">👰🏻‍♀️🤵🏻</div>
-    <p>Akhirnya Pangeran Singgih bertemu ${name}🤍 untuk bisa bahagia 👰🏻‍♀️🤵🏻</p>
-    <p>Perjalanan Pangeran tadi penuh rintangan. Sempat salah jalan, kena jebakan, lalu mulai lagi.
-    Dia terus jalan…karena dia tahu, yang ditujunya itu sangat berharga.
-    Kadang hidup juga gitu. Kalau tujuannya kamu👰🏻‍♀️, rasanya pengen dicoba terus 🤍</p>`;
+    <p>Akhirnya Pangeran Singgih bertemu Putri ${name}🤍 untuk bisa bahagia</p>
+    <p>Perjalanan Pangeran tidak semulus yang dibayangkan.</p>
+    <p>Sempat salah jalan, kena jebakan, namun Dia terus jalan….</p>
+    <p>karena dia tahu, yang ditujunya itu sangat berharga.💎</p>
+    <p>Kadang hidup juga gitu. ya Kalau tujuannya kamu👰🏻‍♀️, I'm never give up🤍</p>`;
     next3.style.display="inline-block";
     confetti();
   }
@@ -314,7 +316,6 @@ function move(dx,dy){
 const words1=[
 "Kamu nggak perlu jadi sempurna untuk jadi berharga. Cara kamu bertahan aja sudah cukup bikin bangga 🤍",
 "Kalau hari ini terasa berat, ingat ya… kamu nggak sendirian. Ada versi kamu yang lebih kuat dari yang kamu kira.",
-"Kamu itu unik, bukan karena berbeda, tapi karena caramu tulus walau dunia kadang ribut.",
 "Pelan nggak apa-apa. Yang penting kamu nggak berhenti jadi baik.",
 "Ada hal-hal indah yang datang bukan karena cepat, tapi karena kamu sabar.",
 "Kalau capek, istirahat. Kalau ragu, percaya diri sedikit. Kamu layak dapat hal baik.",
@@ -329,15 +330,15 @@ function choose(t){
   next();
   if(t=="comeback"){
     const a=[
-      "Aku perhatiin… kamu balik lagi 🤍 mungkin bukan karena game.",
-      "Kalau ini cerita, aku mau kamu jadi ending-nya.",
-      "Ada yang spesial dari kamu, dan kamu bahkan nggak sadar itu."
+      "Aku perhatiin… kamu balik lagi 🤍 mungkin bukan karena gamenya sih ya hehe.",
+      "Meskipun kmu memilih kembali, aku tetep mau kamu jadi ending-nya.😋",
     ];
     ending.innerText=a[Math.floor(Math.random()*a.length)];
   }else{
     ending.innerHTML=`
-    <p>okay, mulai sekarang aku akan menetap di hati kamu.</p>
-    <p>aku cuma punya niat baik, aku berharap kmu bisa memanfaatkan kesempatan ini</p>
+    <div class="big-love">👰🏻‍♀️🤵🏻</div>
+    <p>mulai sekarang aku akan menetap di hati kamu.</p>
+    <p>aku cuma punya niat baik kok, aku berharap kmu bisa memanfaatkan kesempatan ini yaa</p>
     <p><b>good luck with your activities and FIGHTING BEE 🐝</b></p>`;
     confetti();
   }
