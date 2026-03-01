@@ -191,14 +191,6 @@ input{
 <script>
 let p=0,name="",play=0;
 const pages=document.querySelectorAll('.page');
-
-let musicStarted = false;
-
-    document.body.addEventListener("click", () => {
-        if (!musicStarted) {
-            const music = document.getElementById("bgm");
-            music.play();
-            musicStarted = true;
   
 const h=new Date().getHours();
 greet.innerText=`Hi Cloudybear☁️✨, Selamat ${h<11?"Pagi🌻":h<15?"Siang☀️":h<18?"Sore🌈":"Malam🌙"}`;
@@ -209,6 +201,15 @@ function next(){
   pages[p].classList.add("active");
 }
 
+let musicStarted = false;
+
+    document.body.addEventListener("click", () => {
+        if (!musicStarted) {
+            const music = document.getElementById("bgm");
+            music.play();
+            musicStarted = true;
+ }
+      
 /* PAGE 1 */
 function saveName(){
   if(!nameInput.value.trim()){
