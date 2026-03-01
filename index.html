@@ -108,6 +108,9 @@ input{
   font-size:64px;
   animation:pulse 1s infinite alternate;
 }
+.smal-love{
+  font-size:25px;
+}
 @keyframes pulse{
   to{transform:scale(1.1)}
 }
@@ -124,8 +127,8 @@ input{
 </div>
 
 <!-- MUSIC -->
-<audio autoplay loop>
-  <source src="BEAUTiFUL.mp3">
+<audio id="bgm" autoplay loop muted>
+    <source src="BEAUTiFUL.mp3" type="audio/mpeg">
 </audio>
 
 <!-- PAGE 1 -->
@@ -171,7 +174,7 @@ input{
 <div class="page">
   <div class="card">
     <p id="motivation"></p>
-    <img src="byb.jpg" alt="Deskripsi gambar">
+    <div class="smal-love"><img src="byb.jpg" alt="Deskripsi gambar"></div>
     <button onclick="choose('comeback')">comeback</button>
     <button onclick="choose('here')">here with me</button>
   </div>
@@ -189,6 +192,11 @@ input{
 let p=0,name="",play=0;
 const pages=document.querySelectorAll('.page');
 
+function muteMusic() {
+    const music = document.getElementById("bgm");
+    music.muted = !music.muted;
+}
+  
 const h=new Date().getHours();
 greet.innerText=`Hi Cloudybear☁️✨, Selamat ${h<11?"Pagi🌻":h<15?"Siang☀️":h<18?"Sore🌈":"Malam🌙"}`;
 
@@ -336,7 +344,7 @@ function choose(t){
     ending.innerText=a[Math.floor(Math.random()*a.length)];
   }else{
     ending.innerHTML=`
-    <img src="ter.gif" alt="GIF animasi">
+    <div class="smal-love"><img src="ter.gif" alt="GIF animasi"></div>
     <p>mulai sekarang aku akan menetap di hati kamu.</p>
     <p>to sending support and all my love u way everytime</p>
     <p><b>good luck with your activities and FIGHTING BEE 🐝</b></p>`;
