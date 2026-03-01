@@ -127,7 +127,7 @@ input{
 </div>
 
 <!-- MUSIC -->
-<audio id="bgm" loop>
+<audio autoplay loop>
         <source src="BEAUTiFUL.mp3" type="audio/mpeg">
     </audio>
 
@@ -200,15 +200,6 @@ function next(){
   p++;
   pages[p].classList.add("active");
 }
-
-let musicStarted = false;
-
-    document.body.addEventListener("click", () => {
-        if (!musicStarted) {
-            const music = document.getElementById("bgm");
-            music.play();
-            musicStarted = true;
- }
       
 /* PAGE 1 */
 function saveName(){
