@@ -125,14 +125,14 @@ input{
 
 <!-- MUSIC -->
 <audio autoplay loop>
-  <source src="https://dl.sndup.net/dkpn/Beautiful-Paul.mp3">
+  <source src="BEAUTiFUL.mp3">
 </audio>
 
 <!-- PAGE 1 -->
 <div class="page active">
   <div class="card">
     <h2 id="greet"></h2>
-    <p>aku bisa panggil kamu apa?</p>
+    <p>aku bole panggil kamu apa?</p>
     <input id="nameInput" placeholder="Tulis nama kamu 🤍">
     <p id="warn" style="color:#ff8fab"></p>
     <button onclick="saveName()">tap ✨</button>
@@ -153,7 +153,7 @@ input{
 <!-- PAGE 3 -->
 <div class="page">
   <div class="card">
-    <h2>🤴 sebuah legenda</h2>
+    <h2>🤴 Sebuah Legenda</h2>
     <p>Bantu Pangeran Singgih temui cintanya yaa 💖</p>
     <div class="maze" id="maze"></div>
     <div>
@@ -171,7 +171,7 @@ input{
 <div class="page">
   <div class="card">
     <p id="motivation"></p>
-    <div class="big-love">👰🏻‍♀️🤵🏻</div>
+    <div class="big-love"> byb.jpg </div>
     <button onclick="choose('comeback')">comeback</button>
     <button onclick="choose('here')">here with me</button>
   </div>
@@ -255,11 +255,11 @@ function guess(){
   const a=prompt("Siapa dia?");
   if(!a)return;
   if(a.toLowerCase().includes(hero.name.toLowerCase())){
-    guessMsg.innerText="yeey Benar 🤍 kamu peka banget,.. jadi iri, apa aku harus jadi teka-teki dulu ni.";
+    guessMsg.innerText="yeey Tepat 🤍 kamu peka banget yaa soal ginian,.. jadi iri, apa aku harus jadi teka-teki dulu ni.😌";
     next2.style.display="inline-block";
     confetti();
   }else{
-    guessMsg.innerText="salah dong… tapi aku yakin kamu pasti bisa 🤏";
+    guessMsg.innerText="salah dong… tapi aku yakin sekali lagi, kamu pasti bisa 🤏";
     ci++;
     if(ci<hero.clues.length)clue.innerText=hero.clues[ci];
   }
@@ -301,11 +301,11 @@ function move(dx,dy){
   if(map[ny][nx]=="exit"){
     mazeMsg.innerHTML=`
     <div class="big-love">👰🏻‍♀️🤵🏻</div>
-    <p>Akhirnya Pangeran Singgih bertemu Putri ${name}🤍 untuk bisa bahagia</p>
-    <p>Perjalanan Pangeran tidak semulus yang dibayangkan.</p>
-    <p>Sempat salah jalan, kena jebakan, namun Dia terus jalan….</p>
+    <p>Akhirnya Pangeran Singgih bertemu Putri ${name}🤍 dan hidup bahagia✨</p>
+    <p>Terimakasih yah sudah membantu Pangeran 👰🏻‍♀️🤍</p>
+    <p>Padahal dia Sempat salah jalan, kena jebakan, namun Dia terus jalan….</p>
     <p>karena dia tahu, yang ditujunya itu sangat berharga.💎</p>
-    <p>Kadang hidup juga gitu. ya Kalau tujuannya kamu👰🏻‍♀️, I'm never give up🤍</p>`;
+    <p>Kayak Aku sih yaa Kalau tujuannya itu kamu👰🏻‍♀️,sory to say.. I'm never give up on U🤍</p>`;
     next3.style.display="inline-block";
     confetti();
   }
@@ -336,9 +336,9 @@ function choose(t){
     ending.innerText=a[Math.floor(Math.random()*a.length)];
   }else{
     ending.innerHTML=`
-    <div class="big-love">👰🏻‍♀️🤵🏻</div>
+    <div class="big-love"> ter.gif </div>
     <p>mulai sekarang aku akan menetap di hati kamu.</p>
-    <p>aku cuma punya niat baik kok, aku berharap kmu bisa memanfaatkan kesempatan ini yaa</p>
+    <p>to sending support and all my love u way everytime</p>
     <p><b>good luck with your activities and FIGHTING BEE 🐝</b></p>`;
     confetti();
   }
